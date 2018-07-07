@@ -19,14 +19,16 @@ in the style of scikit-learn.
 Current build status
 ====================
 
-Linux: [![Circle CI](https://circleci.com/gh/conda-forge/sklearn-contrib-py-earth-feedstock.svg?style=shield)](https://circleci.com/gh/conda-forge/sklearn-contrib-py-earth-feedstock)
-OSX: [![TravisCI](https://travis-ci.org/conda-forge/sklearn-contrib-py-earth-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/sklearn-contrib-py-earth-feedstock)
-Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/conda-forge/sklearn-contrib-py-earth-feedstock?svg=True)](https://ci.appveyor.com/project/conda-forge/sklearn-contrib-py-earth-feedstock/branch/master)
+[![Linux](https://img.shields.io/circleci/project/github/conda-forge/sklearn-contrib-py-earth-feedstock/master.svg?label=Linux)](https://circleci.com/gh/conda-forge/sklearn-contrib-py-earth-feedstock)
+[![OSX](https://img.shields.io/travis/conda-forge/sklearn-contrib-py-earth-feedstock/master.svg?label=macOS)](https://travis-ci.org/conda-forge/sklearn-contrib-py-earth-feedstock)
+[![Windows](https://img.shields.io/appveyor/ci/conda-forge/sklearn-contrib-py-earth-feedstock/master.svg?label=Windows)](https://ci.appveyor.com/project/conda-forge/sklearn-contrib-py-earth-feedstock/branch/master)
 
 Current release info
 ====================
-Version: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/sklearn-contrib-py-earth/badges/version.svg)](https://anaconda.org/conda-forge/sklearn-contrib-py-earth)
-Downloads: [![Anaconda-Server Badge](https://anaconda.org/conda-forge/sklearn-contrib-py-earth/badges/downloads.svg)](https://anaconda.org/conda-forge/sklearn-contrib-py-earth)
+
+| Name | Downloads | Version | Platforms |
+| --- | --- | --- | --- |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-sklearn--contrib--py--earth-green.svg)](https://anaconda.org/conda-forge/sklearn-contrib-py-earth) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/sklearn-contrib-py-earth.svg)](https://anaconda.org/conda-forge/sklearn-contrib-py-earth) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/sklearn-contrib-py-earth.svg)](https://anaconda.org/conda-forge/sklearn-contrib-py-earth) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/sklearn-contrib-py-earth.svg)](https://anaconda.org/conda-forge/sklearn-contrib-py-earth) |
 
 Installing sklearn-contrib-py-earth
 ===================================
