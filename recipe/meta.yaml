@@ -12,14 +12,15 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
   script: python -m pip install --no-deps --ignore-installed .
 
 requirements:
   build:
+    - {{ compiler('c') }}
+  host:
     - python
     - pip
-    - toolchain 
     # Notes:
     # 1. Cython is not used in build as
     #     a) .c files are included
@@ -29,14 +30,14 @@ requirements:
     #    These combinations of pinned numpy/scipy versions
     #    are known to work, see related discussion in
     #    conda-forge/staged-recipes#4808 and conda-forge/implicit-feedstock#4
-    - numpy 1.11.*
+    - numpy
     - scipy 0.18.*
     - six
 
   run:
     - python
     - six
-    - numpy >=1.11
+    - {{ pin_compatible('numpy') }}
     - scipy >=0.18
     - scikit-learn >=0.16
 
@@ -54,10 +55,10 @@ about:
             Multivariate Adaptive Regression Splines
 
   description: |
-            A Python implementation of Jerome Friedman's 
+            A Python implementation of Jerome Friedman's
             Multivariate Adaptive Regression Splines algorithm,
-            in the style of scikit-learn. 
-     
+            in the style of scikit-learn.
+
   doc_url: http://contrib.scikit-learn.org/py-earth/
   dev_url: https://github.com/scikit-learn-contrib/py-earth
 
