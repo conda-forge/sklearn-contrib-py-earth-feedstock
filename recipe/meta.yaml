@@ -30,7 +30,7 @@ requirements:
     #    These combinations of pinned numpy/scipy versions
     #    are known to work, see related discussion in
     #    conda-forge/staged-recipes#4808 and conda-forge/implicit-feedstock#4
-    - numpy
+    - numpy 1.11.*
     - scipy 0.18.*
     - six
 
