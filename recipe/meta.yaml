@@ -13,7 +13,7 @@ source:
 
 build:
   number: 1001
-  script: python -m pip install --no-deps --ignore-installed .
+  script: python -m pip install --no-deps --ignore-installed --install-option "--cythonize" .
 
 requirements:
   build:
@@ -21,19 +21,10 @@ requirements:
   host:
     - python
     - pip
-    # Notes:
-    # 1. Cython is not used in build as
-    #     a) .c files are included
-    #     b) with the current setup.py cythonizing requires an additional
-    #        parameter
-    # 2. pyearth cimports BLAS from scipy
-    #    These combinations of pinned numpy/scipy versions
-    #    are known to work, see related discussion in
-    #    conda-forge/staged-recipes#4808 and conda-forge/implicit-feedstock#4
-    - numpy 1.11.*
-    - scipy 0.18.*
+    - cython
+    - numpy
+    - scipy
     - six
-
   run:
     - python
     - six
