@@ -12,7 +12,7 @@ index 6c4ea6b..d7b3fb8 100644
          cdef list outcomes
          cdef int i, n_weights
 diff --git a/pyearth/earth.py b/pyearth/earth.py
-index e027d6a..1ceaf28 100644
+index e027d6a..e8d4e0f 100644
 --- a/pyearth/earth.py
 +++ b/pyearth/earth.py
 @@ -3,6 +3,10 @@ from ._pruning import PruningPasser, FEAT_IMP_CRITERIA
@@ -50,6 +50,17 @@ index e027d6a..1ceaf28 100644
          X = np.asarray(X, dtype=np.float64, order='F')
          
          # Figure out missingness
+@@ -415,8 +427,8 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
+                 raise ValueError(
+                     "Input contains NaN, infinity or a value that's too large."
+                     "Did you mean to set allow_missing=True?")
+-        if X.ndim == 1:
+-            X = X[:, np.newaxis]
++        if X.ndim < 2:
++            raise ValueError('Missing features. Need two-dimensional X, got X.ndim=={}.'.format(X.ndim))
+ 
+         # Ensure correct number of columns
+         if hasattr(self, 'basis_') and self.basis_ is not None:
 @@ -1271,7 +1283,7 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
  #         mse0 = np.sum(y_sqr * output_weight) / m
          return 1 - (mse / mse0)
