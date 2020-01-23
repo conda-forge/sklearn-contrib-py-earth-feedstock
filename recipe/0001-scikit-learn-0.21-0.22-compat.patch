@@ -27,7 +27,7 @@ index e027d6a..c66d05c 100644
      """
      Multivariate Adaptive Regression Splines
 diff --git a/pyearth/test/test_earth.py b/pyearth/test/test_earth.py
-index d6dfd8b..1ea45ea 100644
+index d6dfd8b..a1de87e 100644
 --- a/pyearth/test/test_earth.py
 +++ b/pyearth/test/test_earth.py
 @@ -48,7 +48,8 @@ default_params = {"penalty": 1}
@@ -45,7 +45,7 @@ index d6dfd8b..1ea45ea 100644
          prev = fl.read()
  
 -    assert_equal(res, prev)
-+    assert_almost_equal(res, prev, places=7)
++    assert_almost_equal(float(res), float(prev), places=7)
  
  
  def test_linvars_coefs():
