@@ -1,14 +1,12 @@
-{% set name = "sklearn-contrib-py-earth" %}
 {% set version = "0.1.0" %}
 {% set sha256 = "3d0f1efa5f5508610500deec0fe1084716acce1d0fc4fc81d48c52791ce7ba0c" %}
 
 package:
-  name: {{ name|lower }}
+  name: sklearn-contrib-py-earth
   version: {{ version }}
 
 source:
-  fn: {{ name }}-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/s/sklearn-contrib-py-earth/sklearn-contrib-py-earth-{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
@@ -33,12 +31,11 @@ requirements:
     - numpy 1.11.*
     - scipy 0.18.*
     - six
-
   run:
     - python
     - six
     - {{ pin_compatible('numpy') }}
-    - scipy >=0.18
+    - {{ pin_compatible('scipy') }}
     - scikit-learn >=0.16
 
 test:
@@ -50,15 +47,13 @@ about:
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
-  summary: |
-            A Python implementation of Jerome Friedman's
-            Multivariate Adaptive Regression Splines
-
-  description: |
-            A Python implementation of Jerome Friedman's
-            Multivariate Adaptive Regression Splines algorithm,
-            in the style of scikit-learn.
-
+  summary: >
+    A Python implementation of Jerome Friedman's
+    Multivariate Adaptive Regression Splines
+  description: >
+    A Python implementation of Jerome Friedman's
+    Multivariate Adaptive Regression Splines algorithm,
+    in the style of scikit-learn.
   doc_url: http://contrib.scikit-learn.org/py-earth/
   dev_url: https://github.com/scikit-learn-contrib/py-earth
 
