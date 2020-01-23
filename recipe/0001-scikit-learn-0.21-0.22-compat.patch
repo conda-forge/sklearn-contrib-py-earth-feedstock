@@ -12,10 +12,10 @@ index 6c4ea6b..d7b3fb8 100644
          cdef list outcomes
          cdef int i, n_weights
 diff --git a/pyearth/earth.py b/pyearth/earth.py
-index e027d6a..8bf8369 100644
+index e027d6a..1ceaf28 100644
 --- a/pyearth/earth.py
 +++ b/pyearth/earth.py
-@@ -3,14 +3,23 @@ from ._pruning import PruningPasser, FEAT_IMP_CRITERIA
+@@ -3,6 +3,10 @@ from ._pruning import PruningPasser, FEAT_IMP_CRITERIA
  from ._util import ascii_table, apply_weights_2d, gcv
  from ._types import BOOL
  from sklearn.base import RegressorMixin, BaseEstimator, TransformerMixin
@@ -25,9 +25,8 @@ index e027d6a..8bf8369 100644
 +    MultiOutputMixin = None
  from sklearn.utils.validation import (assert_all_finite, check_is_fitted,
                                        check_X_y)
-+import warnings
  import numpy as np
- from scipy import sparse
+@@ -10,7 +14,11 @@ from scipy import sparse
  from ._version import get_versions
  __version__ = get_versions()['version']
  
@@ -40,7 +39,7 @@ index e027d6a..8bf8369 100644
  
      """
      Multivariate Adaptive Regression Splines
-@@ -399,6 +408,10 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
+@@ -399,6 +407,10 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
              raise TypeError('A sparse matrix was passed, but dense data '
                              'is required. Use X.toarray() to convert to '
                              'dense.')
@@ -51,17 +50,15 @@ index e027d6a..8bf8369 100644
          X = np.asarray(X, dtype=np.float64, order='F')
          
          # Figure out missingness
-@@ -460,6 +473,10 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
-         # Check whether X is the output of patsy.dmatrices
-         if y is None and isinstance(X, tuple):
-             y, X = X
-+        if y is None:
-+            warnings.warn('Unexpected y=None and y was not passed in via tuple X.'
-+                          'Substituting via predict(X)...')
-+            y = self.predict(X, missing=missing)
+@@ -1271,7 +1283,7 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
+ #         mse0 = np.sum(y_sqr * output_weight) / m
+         return 1 - (mse / mse0)
  
-         # Handle X separately
-         X, missing = self._scrub_x(X, missing, **kwargs)
+-    def score_samples(self, X, y=None, missing=None):
++    def score_samples_(self, X, y=None, missing=None):
+         '''
+ 
+         Calculate sample-wise fit scores.
 diff --git a/pyearth/test/test_earth.py b/pyearth/test/test_earth.py
 index d6dfd8b..a1de87e 100644
 --- a/pyearth/test/test_earth.py
