@@ -1,12 +1,12 @@
 {% set version = "0.1.0" %}
-{% set sha256 = "3d0f1efa5f5508610500deec0fe1084716acce1d0fc4fc81d48c52791ce7ba0c" %}
+{% set sha256 = "c9f280aede31cde748c635972101625b6287fb4558595d172308515f90b59978" %}
 
 package:
   name: sklearn-contrib-py-earth
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/s/sklearn-contrib-py-earth/sklearn-contrib-py-earth-{{ version }}.tar.gz
+  url: https://github.com/scikit-learn-contrib/py-earth/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
 
 build:
