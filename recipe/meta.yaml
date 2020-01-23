@@ -10,13 +10,14 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
-  script: {{ PYTHON }} -m pip install . --no-deps -vv
+  number: 2
+  script: {{ PYTHON }} -m pip install . --no-deps -vv --install-option=--cythonize
 
 requirements:
   build:
     - {{ compiler('c') }}
   host:
+    - cython
     - python
     - pip
     # Notes:
@@ -28,8 +29,8 @@ requirements:
     #    These combinations of pinned numpy/scipy versions
     #    are known to work, see related discussion in
     #    conda-forge/staged-recipes#4808 and conda-forge/implicit-feedstock#4
-    - numpy 1.11.*
-    - scipy 0.18.*
+    - numpy
+    - scipy >=0.18
     - six
   run:
     - python
@@ -39,8 +40,12 @@ requirements:
     - scikit-learn >=0.16
 
 test:
+  requires:
+    - nose
   imports:
     - pyearth
+  commands:
+    - nosetests -s -v pyearth
 
 about:
   home: https://github.com/scikit-learn-contrib/py-earth
