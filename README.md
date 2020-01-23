@@ -7,13 +7,10 @@ Package license: BSD-3-Clause
 
 Feedstock license: BSD 3-Clause
 
-Summary: A Python implementation of Jerome Friedman's
-Multivariate Adaptive Regression Splines
+Summary: A Python implementation of Jerome Friedman's Multivariate Adaptive Regression Splines
 
 
-A Python implementation of Jerome Friedman's
-Multivariate Adaptive Regression Splines algorithm,
-in the style of scikit-learn.
+A Python implementation of Jerome Friedman's Multivariate Adaptive Regression Splines algorithm, in the style of scikit-learn.
 
 
 Current build status
