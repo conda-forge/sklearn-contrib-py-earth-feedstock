@@ -1,0 +1,51 @@
+diff --git a/pyearth/earth.py b/pyearth/earth.py
+index e027d6a..c66d05c 100644
+--- a/pyearth/earth.py
++++ b/pyearth/earth.py
+@@ -3,6 +3,10 @@ from ._pruning import PruningPasser, FEAT_IMP_CRITERIA
+ from ._util import ascii_table, apply_weights_2d, gcv
+ from ._types import BOOL
+ from sklearn.base import RegressorMixin, BaseEstimator, TransformerMixin
++try:
++    from sklearn.base import MultiOutputMixin
++except ImportError:
++    MultiOutputMixin = None
+ from sklearn.utils.validation import (assert_all_finite, check_is_fitted,
+                                       check_X_y)
+ import numpy as np
+@@ -10,7 +14,11 @@ from scipy import sparse
+ from ._version import get_versions
+ __version__ = get_versions()['version']
+ 
+-class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
++class _Earth(MultiOutputMixin or object):
++    def __init__(self, _version=__version__):
++        self._version = _version
++
++class Earth(BaseEstimator, RegressorMixin, TransformerMixin, _Earth):
+ 
+     """
+     Multivariate Adaptive Regression Splines
+diff --git a/pyearth/test/test_earth.py b/pyearth/test/test_earth.py
+index d6dfd8b..1ea45ea 100644
+--- a/pyearth/test/test_earth.py
++++ b/pyearth/test/test_earth.py
+@@ -48,7 +48,8 @@ default_params = {"penalty": 1}
+ def test_check_estimator():
+     numpy.random.seed(0)
+     import sklearn.utils.estimator_checks
+-    sklearn.utils.estimator_checks.MULTI_OUTPUT.append('Earth')
++    if hasattr(sklearn.utils.estimator_checks, 'MULTI_OUTPUT'):
++        sklearn.utils.estimator_checks.MULTI_OUTPUT.append('Earth')
+     sklearn.utils.estimator_checks.check_estimator(Earth)
+ 
+ 
+@@ -215,7 +216,7 @@ def test_linvars():
+     with open(filename, 'r') as fl:
+         prev = fl.read()
+ 
+-    assert_equal(res, prev)
++    assert_almost_equal(res, prev, places=7)
+ 
+ 
+ def test_linvars_coefs():

@@ -8,6 +8,8 @@ package:
 source:
   url: https://github.com/scikit-learn-contrib/py-earth/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  patches:
+    - 0001-scikit-learn-0.21-0.22-compat.patch
 
 build:
   number: 2
