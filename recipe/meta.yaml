@@ -44,6 +44,10 @@ requirements:
 test:
   requires:
     - nose
+    - pandas
+    - statsmodels
+    - patsy
+    - sympy
   imports:
     - pyearth
   commands:
