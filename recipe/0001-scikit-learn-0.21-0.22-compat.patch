@@ -12,7 +12,7 @@ index 6c4ea6b..d7b3fb8 100644
          cdef list outcomes
          cdef int i, n_weights
 diff --git a/pyearth/earth.py b/pyearth/earth.py
-index e027d6a..543f67a 100644
+index e027d6a..af1283c 100644
 --- a/pyearth/earth.py
 +++ b/pyearth/earth.py
 @@ -3,6 +3,10 @@ from ._pruning import PruningPasser, FEAT_IMP_CRITERIA
@@ -35,7 +35,7 @@ index e027d6a..543f67a 100644
 +    def __init__(self, _version=__version__):
 +        self._version = _version
 +
-+class Earth(BaseEstimator, RegressorMixin, TransformerMixin, _Earth):
++class Earth(_Earth, RegressorMixin, TransformerMixin, BaseEstimator):
  
      """
      Multivariate Adaptive Regression Splines
