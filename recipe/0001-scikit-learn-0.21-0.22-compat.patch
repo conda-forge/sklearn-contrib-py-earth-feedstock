@@ -1,5 +1,5 @@
 diff --git a/pyearth/earth.py b/pyearth/earth.py
-index e027d6a..c66d05c 100644
+index e027d6a..543f67a 100644
 --- a/pyearth/earth.py
 +++ b/pyearth/earth.py
 @@ -3,6 +3,10 @@ from ._pruning import PruningPasser, FEAT_IMP_CRITERIA
@@ -26,6 +26,17 @@ index e027d6a..c66d05c 100644
  
      """
      Multivariate Adaptive Regression Splines
+@@ -399,6 +407,10 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
+             raise TypeError('A sparse matrix was passed, but dense data '
+                             'is required. Use X.toarray() to convert to '
+                             'dense.')
++
++        if getattr(getattr(X, 'dtype', None), 'kind', None) == 'c':
++            raise ValueError('Complex data not supported\n{}\n'.format(X))
++
+         X = np.asarray(X, dtype=np.float64, order='F')
+         
+         # Figure out missingness
 diff --git a/pyearth/test/test_earth.py b/pyearth/test/test_earth.py
 index d6dfd8b..a1de87e 100644
 --- a/pyearth/test/test_earth.py
@@ -49,3 +60,16 @@ index d6dfd8b..a1de87e 100644
  
  
  def test_linvars_coefs():
+diff --git a/pyearth/test/test_export.py b/pyearth/test/test_export.py
+index fc38c50..3d2d25d 100644
+--- a/pyearth/test/test_export.py
++++ b/pyearth/test/test_export.py
+@@ -85,7 +85,7 @@ def test_export_sympy():
+                        'logical_not':numpy.logical_not, "greater": numpy.greater, 'maximum':numpy.maximum,
+                        'Missing': lambda x: numpy.isnan(x).astype(float),
+                        'NaNProtect': lambda x: numpy.where(numpy.isnan(x), 0, x), 'nan': numpy.nan,
+-                       'float': float, 'where': numpy.where
++                       'float': float, 'where': numpy.where, 'numpy': numpy
+                        }
+ 
+         for i, expression in enumerate(expressions):
