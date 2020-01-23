@@ -12,10 +12,10 @@ index 6c4ea6b..d7b3fb8 100644
          cdef list outcomes
          cdef int i, n_weights
 diff --git a/pyearth/earth.py b/pyearth/earth.py
-index e027d6a..e8d4e0f 100644
+index e027d6a..992ce54 100644
 --- a/pyearth/earth.py
 +++ b/pyearth/earth.py
-@@ -3,6 +3,10 @@ from ._pruning import PruningPasser, FEAT_IMP_CRITERIA
+@@ -3,14 +3,22 @@ from ._pruning import PruningPasser, FEAT_IMP_CRITERIA
  from ._util import ascii_table, apply_weights_2d, gcv
  from ._types import BOOL
  from sklearn.base import RegressorMixin, BaseEstimator, TransformerMixin
@@ -24,9 +24,10 @@ index e027d6a..e8d4e0f 100644
 +except ImportError:
 +    MultiOutputMixin = None
  from sklearn.utils.validation import (assert_all_finite, check_is_fitted,
-                                       check_X_y)
+-                                      check_X_y)
++                                      check_X_y, check_array)
  import numpy as np
-@@ -10,7 +14,11 @@ from scipy import sparse
+ from scipy import sparse
  from ._version import get_versions
  __version__ = get_versions()['version']
  
@@ -39,29 +40,17 @@ index e027d6a..e8d4e0f 100644
  
      """
      Multivariate Adaptive Regression Splines
-@@ -399,6 +407,10 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
+@@ -399,6 +407,9 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
              raise TypeError('A sparse matrix was passed, but dense data '
                              'is required. Use X.toarray() to convert to '
                              'dense.')
 +
-+        if getattr(getattr(X, 'dtype', None), 'kind', None) == 'c':
-+            raise ValueError('Complex data not supported\n{}\n'.format(X))
++        check_array(X, ensure_2d=True, force_all_finite=False)
 +
          X = np.asarray(X, dtype=np.float64, order='F')
          
          # Figure out missingness
-@@ -415,8 +427,8 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
-                 raise ValueError(
-                     "Input contains NaN, infinity or a value that's too large."
-                     "Did you mean to set allow_missing=True?")
--        if X.ndim == 1:
--            X = X[:, np.newaxis]
-+        if X.ndim < 2:
-+            raise ValueError('Missing features. Need two-dimensional X, got X.ndim=={}.'.format(X.ndim))
- 
-         # Ensure correct number of columns
-         if hasattr(self, 'basis_') and self.basis_ is not None:
-@@ -1271,7 +1283,7 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
+@@ -1271,7 +1282,7 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
  #         mse0 = np.sum(y_sqr * output_weight) / m
          return 1 - (mse / mse0)
  
