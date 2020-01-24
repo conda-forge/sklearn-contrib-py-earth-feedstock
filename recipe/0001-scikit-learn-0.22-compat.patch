@@ -12,7 +12,7 @@ index 6c4ea6b..d7b3fb8 100644
          cdef list outcomes
          cdef int i, n_weights
 diff --git a/pyearth/earth.py b/pyearth/earth.py
-index e027d6a..34cd284 100644
+index e027d6a..5f1df54 100644
 --- a/pyearth/earth.py
 +++ b/pyearth/earth.py
 @@ -3,6 +3,11 @@ from ._pruning import PruningPasser, FEAT_IMP_CRITERIA
@@ -27,35 +27,21 @@ index e027d6a..34cd284 100644
  from sklearn.utils.validation import (assert_all_finite, check_is_fitted,
                                        check_X_y)
  import numpy as np
-@@ -10,7 +15,7 @@ from scipy import sparse
+@@ -10,7 +15,13 @@ from scipy import sparse
  from ._version import get_versions
  __version__ = get_versions()['version']
  
 -class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
-+class Earth((MultiOutputMixin or object), RegressorMixin, TransformerMixin, BaseEstimator):
++class _Earth(MultiOutputMixin or object):
++    # _version keyword added to to base class to
++    # pass check_no_attributes_set_in_init in scikit-learn>=0.20
++    def __init__(self, _version=__version__):
++        pass
++
++class Earth(_Earth, RegressorMixin, TransformerMixin, BaseEstimator):
  
      """
      Multivariate Adaptive Regression Splines
-@@ -301,7 +306,9 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
-                  check_every=None,
-                  allow_linear=None, use_fast=None, fast_K=None,
-                  fast_h=None, smooth=None, enable_pruning=True,
--                 feature_importance_type=None, verbose=0):
-+                 feature_importance_type=None, verbose=0,
-+                 # _version keyword added to pass check_no_attributes_set_in_init in scikit-learn>=0.20
-+                 _version=__version__):
- 
-         self.max_terms = max_terms
-         self.max_degree = max_degree
-@@ -323,7 +330,7 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
-         self.enable_pruning = enable_pruning
-         self.feature_importance_type = feature_importance_type
-         self.verbose = verbose
--        self._version = __version__
-+        self._version = _version
- 
-     def __eq__(self, other):
-         if self.__class__ is not other.__class__:
 diff --git a/pyearth/test/test_earth.py b/pyearth/test/test_earth.py
 index d6dfd8b..76bd39a 100644
 --- a/pyearth/test/test_earth.py
