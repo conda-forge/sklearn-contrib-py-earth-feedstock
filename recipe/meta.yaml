@@ -9,7 +9,7 @@ source:
   url: https://github.com/scikit-learn-contrib/py-earth/archive/{{ version }}.tar.gz
   sha256: {{ sha256 }}
   patches:
-    - 0001-scikit-learn-0.21-0.22-compat.patch
+    - 0001-scikit-learn-0.22-compat.patch
 
 build:
   number: 2
@@ -22,16 +22,8 @@ requirements:
     - cython
     - python
     - pip
-    # Notes:
-    # 1. Cython is not used in build as
-    #     a) .c files are included
-    #     b) with the current setup.py cythonizing requires an additional
-    #        parameter
-    # 2. pyearth cimports BLAS from scipy
-    #    These combinations of pinned numpy/scipy versions
-    #    are known to work, see related discussion in
-    #    conda-forge/staged-recipes#4808 and conda-forge/implicit-feedstock#4
     - numpy
+    # pyearth cimports BLAS from scipy
     - scipy >=0.18
     - six
   run:
@@ -39,7 +31,8 @@ requirements:
     - six
     - {{ pin_compatible('numpy') }}
     - {{ pin_compatible('scipy') }}
-    - scikit-learn >=0.16
+    # the unpatched version is known to work for <0.20; the patches were done for 0.22
+    - scikit-learn >=0.16,<0.20.0a0|>=0.22
 
 test:
   requires:
