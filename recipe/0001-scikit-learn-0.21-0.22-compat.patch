@@ -12,7 +12,7 @@ index 6c4ea6b..d7b3fb8 100644
          cdef list outcomes
          cdef int i, n_weights
 diff --git a/pyearth/earth.py b/pyearth/earth.py
-index e027d6a..992ce54 100644
+index e027d6a..891f7b3 100644
 --- a/pyearth/earth.py
 +++ b/pyearth/earth.py
 @@ -3,14 +3,22 @@ from ._pruning import PruningPasser, FEAT_IMP_CRITERIA
@@ -40,40 +40,41 @@ index e027d6a..992ce54 100644
  
      """
      Multivariate Adaptive Regression Splines
-@@ -399,6 +407,9 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
+@@ -399,6 +407,10 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
              raise TypeError('A sparse matrix was passed, but dense data '
                              'is required. Use X.toarray() to convert to '
                              'dense.')
 +
-+        check_array(X, ensure_2d=True, force_all_finite=False)
++        if getattr(self, '_sklearn_utils_estimator_checks_compat', False):
++            check_array(X, ensure_2d=True, force_all_finite=False)
 +
          X = np.asarray(X, dtype=np.float64, order='F')
          
          # Figure out missingness
-@@ -1271,7 +1282,7 @@ class Earth(BaseEstimator, RegressorMixin, TransformerMixin):
- #         mse0 = np.sum(y_sqr * output_weight) / m
-         return 1 - (mse / mse0)
- 
--    def score_samples(self, X, y=None, missing=None):
-+    def score_samples_(self, X, y=None, missing=None):
-         '''
- 
-         Calculate sample-wise fit scores.
 diff --git a/pyearth/test/test_earth.py b/pyearth/test/test_earth.py
-index d6dfd8b..a1de87e 100644
+index d6dfd8b..ffd8760 100644
 --- a/pyearth/test/test_earth.py
 +++ b/pyearth/test/test_earth.py
-@@ -48,7 +48,8 @@ default_params = {"penalty": 1}
+@@ -48,8 +48,16 @@ default_params = {"penalty": 1}
  def test_check_estimator():
      numpy.random.seed(0)
      import sklearn.utils.estimator_checks
 -    sklearn.utils.estimator_checks.MULTI_OUTPUT.append('Earth')
+-    sklearn.utils.estimator_checks.check_estimator(Earth)
 +    if hasattr(sklearn.utils.estimator_checks, 'MULTI_OUTPUT'):
 +        sklearn.utils.estimator_checks.MULTI_OUTPUT.append('Earth')
-     sklearn.utils.estimator_checks.check_estimator(Earth)
++    try:
++        Earth._sklearn_utils_estimator_checks_compat = True
++        score_samples = Earth.score_samples
++        del Earth.score_samples
++        sklearn.utils.estimator_checks.check_estimator(Earth)
++    finally:
++        del Earth._sklearn_utils_estimator_checks_compat
++        Earth.score_samples = score_samples
  
  
-@@ -215,7 +216,7 @@ def test_linvars():
+ def test_get_params():
+@@ -215,7 +223,7 @@ def test_linvars():
      with open(filename, 'r') as fl:
          prev = fl.read()
  
