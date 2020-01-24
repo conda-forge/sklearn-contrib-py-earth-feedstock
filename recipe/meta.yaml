@@ -25,14 +25,16 @@ requirements:
     - numpy
     # pyearth cimports BLAS from scipy
     - scipy >=0.18
+    # add scikit-learn here to ensure we get a compatible scipy version
+    - scikit-learn >=0.16,!=0.21.*
     - six
   run:
     - python
     - six
     - {{ pin_compatible('numpy') }}
     - {{ pin_compatible('scipy') }}
-    # the unpatched version is known to work for <0.20; the patches were done for 0.22
-    - scikit-learn >=0.16,<0.20.0a0|>=0.22
+    # the patches are done for 0.22 and don't work for 0.21.*
+    - scikit-learn >=0.16,!=0.21.*
 
 test:
   requires:
