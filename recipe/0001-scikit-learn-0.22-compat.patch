@@ -43,7 +43,7 @@ index e027d6a..5f1df54 100644
      """
      Multivariate Adaptive Regression Splines
 diff --git a/pyearth/test/test_earth.py b/pyearth/test/test_earth.py
-index d6dfd8b..d97c8ad 100644
+index d6dfd8b..390ec59 100644
 --- a/pyearth/test/test_earth.py
 +++ b/pyearth/test/test_earth.py
 @@ -48,8 +48,37 @@ default_params = {"penalty": 1}
@@ -55,10 +55,10 @@ index d6dfd8b..d97c8ad 100644
 +    try:
 +        # The generate_only keyword has been added in scikit-learn 0.22.
 +        # We use it here to skip checks that are known to fail for Earth.
++        # The skipped checks were added in 0.20 but can only skip them for >=0.22
++        # => we are only compatible with scikit <0.20|>=0.22 .
 +        checks_generator = sklearn.utils.estimator_checks.check_estimator(Earth, generate_only=True)
 +    except TypeError:
-+        # scikit 0.21 removed MULTI_OUTPUT but doesn't have generate_only yet:
-+        # => we are only compatible with scikit <0.21|>=0.22 .
 +        sklearn.utils.estimator_checks.MULTI_OUTPUT.append('Earth')
 +        sklearn.utils.estimator_checks.check_estimator(Earth)
 +    else:
