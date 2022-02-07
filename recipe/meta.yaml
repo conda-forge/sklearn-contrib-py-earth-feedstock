@@ -26,7 +26,7 @@ requirements:
     # pyearth cimports BLAS from scipy
     - scipy >=0.18
     # add scikit-learn here to ensure we get a compatible scipy version
-    - scikit-learn >=0.16,<0.20.0a0|>=0.22
+    - scikit-learn >=0.16,<0.20.0a0|>=0.22,<0.24
     - six
   run:
     - python
@@ -34,7 +34,7 @@ requirements:
     - {{ pin_compatible('numpy') }}
     - {{ pin_compatible('scipy') }}
     # the patches add 0.22 compatibility but don't work with >=0.20,<0.22
-    - scikit-learn >=0.16,<0.20.0a0|>=0.22
+    - scikit-learn >=0.16,<0.20.0a0|>=0.22,<0.24
 
 test:
   requires:
