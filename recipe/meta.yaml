@@ -12,12 +12,13 @@ source:
     - 0001-scikit-learn-0.22-compat.patch
 
 build:
-  number: 3
+  number: 4
   script: {{ PYTHON }} -m pip install . --no-deps -vv --install-option=--cythonize
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
   host:
     - cython
     - python
@@ -31,7 +32,6 @@ requirements:
   run:
     - python
     - six
-    - {{ pin_compatible('numpy') }}
     - {{ pin_compatible('scipy') }}
     # the patches add 0.22 compatibility but don't work with >=0.20,<0.22
     - scikit-learn >=0.16,<0.20.0a0|>=0.22
