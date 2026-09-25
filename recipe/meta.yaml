@@ -12,12 +12,13 @@ source:
     - 0001-scikit-learn-0.22-compat.patch
 
 build:
-  number: 3
+  number: 4
   script: {{ PYTHON }} -m pip install . --no-deps -vv --install-option=--cythonize
 
 requirements:
   build:
     - {{ compiler('c') }}
+    - {{ stdlib("c") }}
   host:
     - cython
     - python
